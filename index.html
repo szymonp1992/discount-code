@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discount Code creator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Discount Code creator</h1>
+
+    <div>
+      <h3>Wybierz języki:</h3>
+      <label>
+        <input type="checkbox" id="translatePolish" checked /> Polski
+      </label>
+      <label>
+        <input type="checkbox" id="translateCzech" checked /> Czeski
+      </label>
+      <label>
+        <input type="checkbox" id="translateRomanian" checked /> Rumuński
+      </label>
+      <label>
+        <input type="checkbox" id="translateSlovak" checked /> Słowacki
+      </label>
+      <label>
+        <input type="checkbox" id="translateSlovenian" checked /> Słoweński
+      </label>
+      <label>
+        <input type="checkbox" id="translateHungarian" checked /> Węgierski
+      </label>
+      <label>
+        <input type="checkbox" id="translateLithuanian" checked /> Litewski
+      </label>
+      <label>
+        <input type="checkbox" id="translateGerman" checked /> Niemiecki
+      </label>
+      <label>
+        <input type="checkbox" id="translateCroatian" checked /> Chorwacki
+      </label>
+      <label>
+        <input type="checkbox" id="translateBulgarian" checked /> Bułgarski
+      </label>
+    </div>
+
+    
+
+    <div>
+      <h3>Url do promocji <span style="font-size: 0.75rem; font-weight: normal">(tylko wyrózniona na pomarańczowo część: https://8a.pl/<span style="text-decoration: underline; color: orange">link-do-promki</span>)</span></h3>
+      <label
+        >Url: <input type="text" id="promoUrl" value="link-do-promki"
+      /></label>
+    </div>
+
+    <div>
+      <h3>Data zakończenia promocji (w formacie DD.MM.RRRR)</h3>
+      <label
+        >Data: <input type="text" id="promoEndDate" value="31.12.2024"
+      /></label>
+    </div>
+
+    <div>
+      <h3>Kod rabatowy</h3>
+      <label
+        >Url: <input type="text" id="discountCode" value="KODRABATOWY10"
+      /></label>
+    </div>
+
+    <div>
+      <h3>Rodzaj promocji</h3>
+      <label>
+        <input name="discount" type="radio" id="percentageRadio" checked/> % ZNIŻKI
+      </label>
+      <label>
+        <input name="discount" type="radio" id="amountRadio"/> KWOTA ZNIŻKI
+      </label>
+    </div>
+    <div>
+    <div id="discountPercentageContainer">
+      <h3>% ZNIŻKI:</h3>
+      <label
+        > <input type="text" id="discountPercentageValue" value="10"
+      /></label>
+    </div>
+    <div id="discountAmountContainer">
+      <h3>KWOTA ZNIŻKI:</h3>
+      <label
+        > KWOTA ZNIŻKI: <input type="text" id="discountAmountValue" value="10"
+      /></label>
+      <label
+        > MIN. WARTOŚĆ ZAMÓWIENIA: <input type="text" id="discountMinimumOrder" value="10"
+      /></label>
+    </div>
+
+    <button id="translateButton" class="take-action">Generuj</button>
+
+    <div class="output-container">
+      <div class="output-field">
+        <h2>Polski</h2>
+        <button class="copy-button" data-target="outputPolish">Kopiuj</button>
+        <textarea id="outputPolish" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Czeski</h2>
+        <button class="copy-button" data-target="outputCzech">Kopiuj</button>
+        <textarea id="outputCzech" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Rumuński</h2>
+        <button class="copy-button" data-target="outputRomanian">Kopiuj</button>
+        <textarea id="outputRomanian" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Słowacki</h2>
+        <button class="copy-button" data-target="outputSlovak">Kopiuj</button>
+        <textarea id="outputSlovak" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Słoweński</h2>
+        <button class="copy-button" data-target="outputSlovenian">
+          Kopiuj
+        </button>
+        <textarea id="outputSlovenian" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Węgierski</h2>
+        <button class="copy-button" data-target="outputHungarian">
+          Kopiuj
+        </button>
+        <textarea id="outputHungarian" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Litewski</h2>
+        <button class="copy-button" data-target="outputLithuanian">
+          Kopiuj
+        </button>
+        <textarea id="outputLithuanian" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Niemiecki</h2>
+        <button class="copy-button" data-target="outputGerman">Kopiuj</button>
+        <textarea id="outputGerman" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Chorwacki</h2>
+        <button class="copy-button" data-target="outputCroatian">Kopiuj</button>
+        <textarea id="outputCroatian" readonly></textarea>
+      </div>
+      <div class="output-field">
+        <h2>Bułgarski</h2>
+        <button class="copy-button" data-target="outputBulgarian">
+          Kopiuj
+        </button>
+        <textarea id="outputBulgarian" readonly></textarea>
+      </div>
+    </div>
+
+    <script>
+
+
+      const percentageRadio = document.getElementById("percentageRadio")
+      const amountRadio = document.getElementById("amountRadio")
+      const discountAmountContainer = document.getElementById("discountAmountContainer")
+      const discountPercentageContainer = document.getElementById("discountPercentageContainer")
+
+      const discountPercentageValue = document.getElementById('discountPercentageValue').value;
+      const discountAmountValue = document.getElementById('discountAmountValue').value;
+      const discountMinimumOrder = document.getElementById('discountMinimumOrder').value;
+       const promoEndDate = document.getElementById('promoEndDate').value;
+       const promoUrl = document.getElementById('promoUrl').value;
+       const discountCode =document.getElementById('discountCode').value;
+
+       if (amountRadio.checked) {
+        discountAmountContainer.style.display = 'block';
+        discountPercentageContainer.style.display = 'none';
+       }
+       if (percentageRadio.checked) {
+        discountAmountContainer.style.display = 'none';
+        discountPercentageContainer.style.display = 'block';
+}
+
+
+     amountRadio.addEventListener("click", () => {
+        discountAmountContainer.style.display = 'block';
+        discountPercentageContainer.style.display = 'none';
+      })
+
+      percentageRadio.addEventListener("click", () => {
+        discountAmountContainer.style.display = 'none';
+        discountPercentageContainer.style.display = 'block';
+      })
+
+      const translateButton = document.getElementById("translateButton");
+      const backToDefaultButton = document.getElementById("backToDefault");
+      const outputFields = document.querySelectorAll(
+        ".output-container textarea"
+      );
+      const languages = [
+          {
+            id: "polski",
+            checkboxId: "translatePolish",
+            label: "Polski",
+          },
+          {
+            id: "czeski",
+            checkboxId: "translateCzech",
+            label: "Czeski",
+          },
+          {
+            id: "rumuński",
+            checkboxId: "translateRomanian",
+            label: "Rumuński",
+          },
+          {
+            id: "słowacki",
+            checkboxId: "translateSlovak",
+            label: "Słowacki",
+          },
+          {
+            id: "słoweński",
+            checkboxId: "translateSlovenian",
+            label: "Słoweński",
+          },
+          {
+            id: "węgierski",
+            checkboxId: "translateHungarian",
+            label: "Węgierski",
+          },
+          {
+            id: "litewski",
+            checkboxId: "translateLithuanian",
+            label: "Litewski",
+          },
+          {
+            id: "niemiecki",
+            checkboxId: "translateGerman",
+            label: "Niemiecki",
+          },
+          {
+            id: "chorwacki",
+            checkboxId: "translateCroatian",
+            label: "Chorwacki",
+          },
+          {
+            id: "bułgarski",
+            checkboxId: "translateBulgarian",
+            label: "Bułgarski",
+          },
+        ];
+
+      translateButton.addEventListener("click", () => {
+        
+        
+        const selectedLanguages = languages.filter((language) => {
+          const checkbox = document.getElementById(language.checkboxId);
+          return checkbox.checked;
+        });
+
+       console.log(percentageRadio.checked)
+       console.log(amountRadio.checked)
+
+       
+
+        // Jezeli procenty
+        //
+        //
+
+        if (percentageRadio.checked === true) {
+          for (const language of selectedLanguages) {
+            const outputField =
+              outputFields[
+                languages.findIndex((lang) => lang.id === language.id)
+              ];
+            if (language.id === "polski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3 style="line-height: 3rem">Extra -${discountPercentageValue}%</h3>
+		<p>Promocja trwa do ${promoEndDate} i obejmuje produkty pod <a href="https://8a.pl/${promoUrl}">tym linkiem</a> bez limitu wartości. Rabat ${discountPercentageValue}% naliczy się po wpisaniu w
+			koszyku kodu. Pojedyncze produkty mogą być wykluczone z promocji. Promocja nie dotyczy kart podarunkowych.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kod rabatowy:</h6>
+		<span class="discount-code">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "czeski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue} %</h3>
+		<p>Akce platí do ${promoEndDate} a zahrnuje produkty <a class="g--link" href="https://8a.cz/${promoUrl}"><strong>na této lince</strong></a>, bez omezení hodnoty. Sleva -${discountPercentageValue} % se uplatní na produkty zahrnuté v akci po zadání kódu do košíku. Akce se nevztahuje na dárkové karty.</p>
+	</td>
+	<td style="width: 94.5312px;">
+		<h6 class="mobile-header">Kód:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "rumuński") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue}%</h3>
+		<p>Promoția este valabilă până la data de ${promoEndDate} inclusiv și include produsele din acest <a class="g--link"
+				href="https://8a.ro/${promoUrl}"><strong>link</strong></a>, fără limită de valoare. O reducere de -${discountPercentageValue}% va fi aplicată produselor
+			incluse în promoție atunci când codul este introdus în coș. Promoția nu se aplică la cardurile cadou.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Cod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "słowacki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue} %</h3>
+		<p>Akcia trvá do ${promoEndDate} vrátane a zahŕňa produkty uvedené na tomto <a
+				href="https://8a.sk/${promoUrl}"><strong>odkaze</strong></a> bez obmedzenia hodnoty. Pri zadaní kódu v nákupnom
+			košíku sa na produkty zahrnuté do akcie poskytne zľava -${discountPercentageValue} %. Akcia neplatí pre darčekové karty.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kód:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "słoweński") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue} %</h3>
+		<p>Promocija traja do ${promoEndDate} in vključuje izdelke na tej <a class="g--link"
+				href="https://8a.si/${promoUrl}"><strong>povezavi</strong></a>, brez omejitve vrednosti. Ko v nakupovalni košarici vnesete kodo, se na izdelke, vključene v promocijo, obračuna dodaten popust v višini -${discountPercentageValue} %. Promocija ne velja za darilne kartice.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Koda:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "węgierski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue}%</h3>
+		<p>A promóció ${promoEndDate}-ig tart, és az ezen az <a href="https://8a.hu/${promoUrl}"><strong>url-en</strong></a> elérhető termékekre
+			vonatkozik, értékhatár nélkül. További -${discountPercentageValue}%-os kedvezményt alkalmazunk az akcióban szereplő termékekre,
+			miután a kódot a kosárban a pénztárnál megadtuk. A promóció nem vonatkozik az ajándék kártyákra.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "litewski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue}%</h3>
+		<p>Akcija galioja iki ${promoEndDate} vidurnakčio ir apima produktus, kuriuos galima įsigyti <a
+				href="https://8a-shop.lt/${promoUrl}"><strong>pagal šią nuorodą</strong></a>. Papildoma ${discountPercentageValue} % nuolaida bus taikoma kasoje įvedus
+			kodą. Akcija netaikoma dovanų kortelėms.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kodas:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "niemiecki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountPercentageValue}%</h3>
+		<p>Die Aktion läuft bis zum ${promoEndDate} um Mitternacht und umfasst Produkte <a class="g--link" href="https://8a.de/${promoUrl}"><strong>unter diesem Link</strong></a>. Der Rabatt von -${discountPercentageValue}% wird auf die Produkte angewendet, die von der Aktion erfasst sind, nach Eingabe des Codes im Warenkorb. Die Aktion gilt nicht für Geschenkkarten.
+</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Code:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "chorwacki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Dodatni popust -${discountPercentageValue}%</h3>
+		<p>Ponuda vrijedi do ${promoEndDate}. i odnosi se na proizvode koje možete kupiti <a
+				href="https://8a-shop.hr/${promoUrl}"><strong>prema ovom linku</strong></a>. Dodatni popust od ${discountPercentageValue}% primijenit će se na blagajni unoseći kod. Promocija se ne odnosi na poklon kartice.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "bułgarski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Допълнително -${discountPercentageValue}%</h3>
+		<p>Промоцията е валидна до ${promoEndDate} г. и важи за продуктите, които можете да закупите на <a
+				href="https://8a.bg/${promoUrl}"><strong>този адрес</strong></a>, без ограничение в стойност. Допълнителната отстъпка от ${discountPercentageValue}% ще бъде приложена към продуктите в промоцията след въвеждането на кода в кошницата при плащане. Промоцията не важи за подаръчни карти.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Код:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+          }
+        }
+
+      // Jezeli kwota
+      //
+      //
+
+        if (amountRadio.checked === true) {
+          for (const language of selectedLanguages) {
+            const outputField =
+              outputFields[
+                languages.findIndex((lang) => lang.id === language.id)
+              ];
+            if (language.id === "polski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3 style="line-height: 3rem">Extra -${discountAmountValue} zł</h3>
+		<p>Promocja trwa do ${promoEndDate} i obejmuje produkty pod <a href="https://8a.pl/${promoUrl}">tym linkiem</a> bez limitu wartości. Rabat ${discountAmountValue} zł naliczy się na produkty objęte promocją, po wpisaniu w
+			koszyku kodu, pod warunkiem, że łączna wartość produktów w koszyku przekroczy ${discountMinimumOrder} zł. Promocja nie dotyczy kart podarunkowych.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kod rabatowy:</h6>
+		<span class="discount-code">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "czeski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} Kč</h3>
+		<p>Akce trvá do ${promoEndDate} a vztahuje se na produkty uvedené <a class="g--link"
+				href="https://8a.cz/${promoUrl}"><strong> pod odkazem</strong></a>, bez omezení hodnoty. Kód platí pro objednávky nad ${discountMinimumOrder} Kč a snižuje hodnotu objednávky o ${discountAmountValue} Kč. Akce se nevztahuje na dárkové karty.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kód:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "rumuński") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} Lei</h3>
+		<p>Promoția este valabilă până la ${promoEndDate}, la miezul nopții, și se aplică produselor <a class="g--link" href="https://8a.ro/${promoUrl}"><strong>de sub acest link</strong></a>, fără limit de valoare. Reducerea de -${discountAmountValue} Lei se aplică produselor incluse în promoție, după introducerea codului în coș, dacă valoarea produselor incluse în promoție din coș este de cel puțin ${discountMinimumOrder} Lei. Promoția nu se aplică la cardurile cadou.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Cod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "słowacki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} €</h3>
+		<p>Akcia trvá do ${promoEndDate} vrátane a zahŕňa produkty uvedené na tomto <a
+				href="https://8a.sk/${promoUrl}"><strong>odkaze</strong></a> bez obmedzenia hodnoty. Kód platí pre objednávky nad ${discountMinimumOrder} € a znižuje hodnotu objednávky o ${discountAmountValue} €. Akcia neplatí pre darčekové karty.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kód:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "słoweński") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} €</h3>
+		<p>Promocija traja do ${promoEndDate} in vključuje izdelke na tej <a class="g--link"
+				href="https://8a.si/${promoUrl}"><strong>povezavi</strong></a>, brez omejitve vrednosti. Koda velja za naročila nad ${discountMinimumOrder}€ in zmanjša vrednost naročila za ${discountAmountValue}€. Promocija ne velja za darilne kartice.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Koda:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "węgierski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} Ft</h3>
+		<p>A promóció ${promoEndDate}-ig tart, és az ezen az <a href="https://8a.hu/${promoUrl}"><strong>url-en</strong></a> elérhető termékekre
+			vonatkozik, értékhatár nélkül. A kód érvényes a ${discountMinimumOrder} Ft feletti rendelésekre és a rendelés értékét ${discountAmountValue} Ft-tal csökkenti. A promóció nem vonatkozik az ajándék kártyákra.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "litewski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} €</h3>
+		<p>Akcija galioja iki ${promoEndDate} ir apima produktus, kuriuos galima įsigyti <a
+				href="https://8a-shop.lt/${promoUrl}"><strong>pagal šią nuorodą</strong></a>. Kodas galioja užsakymams virš ${discountMinimumOrder} € ir sumažina užsakymo vertę ${discountAmountValue} €. Akcija netaikoma dovanų kortelėms.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Kodas:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "niemiecki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Extra -${discountAmountValue} €</h3>
+		<p>Die Promotion läuft bis zum ${promoEndDate} und gilt für Produkte, die <a href="https://8a.de/${promoUrl}"><strong>unter diesem Link</strong></a> sichtbar sind, ohne Wertbegrenzung. Der Code gilt für Bestellungen über ${discountMinimumOrder} € und reduziert den Bestellwert um ${discountAmountValue} €. Die Aktion gilt nicht für Geschenkkarten.
+</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Code:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "chorwacki") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Dodatnih -${discountAmountValue} €</h3>
+		<p>Ponuda vrijedi do ${promoEndDate}. i odnosi se na proizvode koje možete kupiti <a
+				href="https://8a-shop.hr/${promoUrl}"><strong>prema ovom linku</strong></a>. Kod vrijedi za narudžbe iznad ${discountMinimumOrder} € i smanjit će ukupnu vrijednost narudžbe za ${discountAmountValue} €. Promocija se ne odnosi na poklon kartice.</p>
+	</td>
+	<td>
+		<h6 class "mobile-header">Kod:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+            if (language.id === "bułgarski") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3>Допълнително -${discountAmountValue} лв.</h3>
+		<p>Предложението е валидно до ${promoEndDate} г. и се отнася до продуктите, които можете да закупите <a
+				href="https://8a.bg/${promoUrl}"><strong>по този линк</strong></a>. Кода е валиден за поръчки над ${discountMinimumOrder} лв. и ще намали общата стойност на поръчката с ${discountAmountValue} лв. Промоцията не важи за подаръчни карти.</p>
+	</td>
+	<td>
+		<h6 class "mobile-header">Код:</h6>
+		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
+	</td>
+</tr>`
+            } 
+
+          }
+        }
+      ;
+      });
+
+      
+
+      
+
+      // Obsługa kopiowania do schowka
+      const copyButtons = document.querySelectorAll(".copy-button");
+      copyButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetId = button.getAttribute("data-target");
+          const targetField = document.getElementById(targetId);
+
+          targetField.select();
+          document.execCommand("copy");
+        });
+      });
+    </script>
+  </body>
+</html>
