@@ -90,16 +90,16 @@
     <div id="discountPercentageContainer">
       <h3>% ZNIŻKI:</h3>
       <label
-        > <input type="text" id="discountPercentageValue" value="10"
+        > <input type="text" id="discountPercentageValue"
       /></label>
     </div>
     <div id="discountAmountContainer">
       <h3>KWOTA ZNIŻKI:</h3>
       <label
-        > KWOTA ZNIŻKI: <input type="text" id="discountAmountValue" value="10"
+        > KWOTA ZNIŻKI: <input type="text" id="discountAmountValue"
       /></label>
       <label
-        > MIN. WARTOŚĆ ZAMÓWIENIA: <input type="text" id="discountMinimumOrder" value="10"
+        > MIN. WARTOŚĆ ZAMÓWIENIA: <input type="text" id="discountMinimumOrder"
       /></label>
     </div>
 
@@ -167,19 +167,6 @@
     </div>
 
     <script>
-
-
-      const percentageRadio = document.getElementById("percentageRadio")
-      const amountRadio = document.getElementById("amountRadio")
-      const discountAmountContainer = document.getElementById("discountAmountContainer")
-      const discountPercentageContainer = document.getElementById("discountPercentageContainer")
-
-      const discountPercentageValue = document.getElementById('discountPercentageValue').value;
-      const discountAmountValue = document.getElementById('discountAmountValue').value;
-      const discountMinimumOrder = document.getElementById('discountMinimumOrder').value;
-       const promoEndDate = document.getElementById('promoEndDate').value;
-       const promoUrl = document.getElementById('promoUrl').value;
-       const discountCode =document.getElementById('discountCode').value;
 
        if (amountRadio.checked) {
         discountAmountContainer.style.display = 'block';
@@ -260,15 +247,24 @@
         ];
 
       translateButton.addEventListener("click", () => {
+
+        const percentageRadio = document.getElementById("percentageRadio")
+      const amountRadio = document.getElementById("amountRadio")
+      const discountAmountContainer = document.getElementById("discountAmountContainer")
+      const discountPercentageContainer = document.getElementById("discountPercentageContainer")
+
+       const discountPercentageValue = document.getElementById('discountPercentageValue').value;
+       const discountAmountValue = document.getElementById('discountAmountValue').value;
+       const discountMinimumOrder = document.getElementById('discountMinimumOrder').value;
+       const promoEndDate = document.getElementById('promoEndDate').value;
+       const promoUrl = document.getElementById('promoUrl').value;
+       const discountCode =document.getElementById('discountCode').value;
         
         
         const selectedLanguages = languages.filter((language) => {
           const checkbox = document.getElementById(language.checkboxId);
           return checkbox.checked;
         });
-
-       console.log(percentageRadio.checked)
-       console.log(amountRadio.checked)
 
        
 
