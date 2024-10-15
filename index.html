@@ -52,6 +52,9 @@
       <label>
         <input type="checkbox" id="translateBulgarian" checked /> Bułgarski
       </label>
+      <label>
+        <input type="checkbox" id="translateUkrainian" checked /> Ukraiński
+      </label>
     </div>
 
     
@@ -164,6 +167,13 @@
         </button>
         <textarea id="outputBulgarian" readonly></textarea>
       </div>
+      <div class="output-field">
+        <h2>Ukraiński</h2>
+        <button class="copy-button" data-target="outputUkrainian">
+          Kopiuj
+        </button>
+        <textarea id="outputUkrainian" readonly></textarea>
+      </div>
     </div>
 
     <script>
@@ -243,6 +253,11 @@
             id: "bułgarski",
             checkboxId: "translateBulgarian",
             label: "Bułgarski",
+          },
+          {
+            id: "ukraiński",
+            checkboxId: "translateUkrainian",
+            label: "Ukraiński",
           },
         ];
 
@@ -410,6 +425,20 @@
 		<span class="discount-code" style="font-size: 1.5rem; font-weight: bold; color: #eb5202">${discountCode}</span>
 	</td>
 </tr>`
+            } 
+            if (language.id === "ukraiński") {
+              outputField.value = `<tr class="active">
+	<td>
+		<h3 style="line-height: 3rem">Додатково -${discountPercentageValue}%</h3>
+		<p>Акція триває до ${promoEndDate} і охоплює товари за <a href="https://8a.ua/${promoUrl}">цим посиланням</a> без обмежень за вартістю. Знижка ${discountPercentageValue}% застосовується після введення коду в
+			кошик. Окремі товари можуть бути виключені з акції. Акція не поширюється на подарункові картки.</p>
+	</td>
+	<td>
+		<h6 class="mobile-header">Промокод:</h6>
+		<span class="discount-code">${discountCode}</span>
+	</td>
+</tr>
+`
             } 
           }
         }
